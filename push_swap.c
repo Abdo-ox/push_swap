@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:29:14 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 15:37:24 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/04 15:49:30 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,16 @@ void	repush_to_a(t_list **src, t_list **dst, char srcc, char dstc)
 	{
 		if ((*dst)->idx == lstlast(*dst)->idx + 1)
 			onti_retate(dst, dstc);
-		else if ((*src)->idx == (*dst)->idx + 1)
-			push(src, dst, dstc);
 		else if (lstlast(*dst) == max(*dst) || lstlast(*dst)->idx < (*src)->idx)
 		{
 			push(src, dst, dstc);
 			retate(dst, dstc);
 		}
+		else if ((*src)->idx == (*dst)->idx + 1)
+			push(src, dst, dstc);
 		else if (r_or_rrr(*src, *dst))
 			retate(src, srcc);
-		else
+		else if (!r_or_rrr(*src, *dst))
 			onti_retate(src, srcc);
 	}
 }
@@ -118,18 +118,15 @@ void	sort_five_handred(t_list **a, t_list **b)
 	int	start;
 	int	end;
 	int	i;
-	int	m;
 
-	m = 0;
-	i = 38;
+	i = 40;
 	size = ft_lstsize(*a) / 2;
 	while (*a)
 	{
 		start = size - i;
 		end = size + i;
 		move_quarter(a, b, start, end);
-		i += 38 - m;
-		//m += 10;
+		i += 40;
 	}
 	repush_to_a(b, a, 'b', 'a');
 }
