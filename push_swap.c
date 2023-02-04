@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:29:14 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/02 19:34:38 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/04 11:26:35 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	fill_stack(t_list **lst, int ac, char **av)
 		ft_lstadd_back(lst, ft_lstnew(ft_atoi(av[i]), -1, i - 1));
 		i++;
 	}
-	put_index(*lst);
+	put_idx(*lst);
 }
 
 t_list	*max(t_list *lst)
@@ -46,7 +46,7 @@ t_list	*min(t_list *lst, int sort)
 	min = max(lst);
 	while (lst)
 	{
-		if (lst->content < min->content && (lst->index == -1 || !sort))
+		if (lst->content < min->content && (lst->idx == -1 || !sort))
 			min = lst;
 		lst = lst->next;
 	}
@@ -65,36 +65,15 @@ void	sort_three(t_list **lst, char c)
 		swap(lst, c);
 }
 
-void	put_index(t_list *lst)
+void	put_idx(t_list *lst)
 {
 	int	i;
 
 	i = 0;
 	while (i < ft_lstsize(lst))
 	{
-		min(lst, 1)->index = i;
+		min(lst, 1)->idx = i;
 		i++;
-	}
-}
-
-void	repush_to_a(t_list **a, t_list **b, char c, char d)
-{
-	t_list	*t;
-
-	while (*b)
-	{
-		t = max((*b));
-		if (c == 'a')
-			t = min(*b, 0);
-		if (*b == t)
-			push(b, a, d);
-		else
-		{
-			if (r_or_rr(*b, t))
-				retate(b, c);
-			else
-				onti_retate(b, c);
-		}
 	}
 }
 
@@ -110,37 +89,80 @@ void	sort_more_then_three(t_list **a, t_list **b)
 	move_quarter(a, b, size, 5);
 	move_quarter(a, b, size, 6);
 	while (*a)
-		push(a, b, 'b');
-	repush_to_a(a, b, 'b', 'a');
+	{
+		if ((*a)->idx < size * 5 / 6)
+		{
+			push(a, b, 'b');
+			retate(b, 'b');
+		}
+		else
+			push(a, b, 'b');
+	}
+	while (*b)
+		push_max(b, a, 'b', 'a');
+	//repush_to_a(b, a, 'b', 'a');
+}
+
+void	push_max(t_list **src, t_list **dst, char srcc, char dstc)
+{
+	t_list	*t;
+
+	while (*src)
+	{
+		t = max((*src));
+		if (*src == t)
+		{
+			push(src, dst, dstc);
+			return ;
+		}
+		else
+		{
+			if (r_or_rr(*src, t))
+				retate(src, srcc);
+			else
+				onti_retate(src, srcc);
+		}
+	}
+}
+
+void	repush_to_a(t_list **src, t_list **dst, char srcc, char dstc)
+{
+	push_max(src, dst, srcc, dstc);
+	while (*src || (!chek_sort(*dst) && !*src))
+	{
+		if ((*dst)->idx == lstlast(*dst)->idx + 1)
+			onti_retate(dst, dstc);
+		else if ((*src)->idx == (*dst)->idx + 1)
+			push(src, dst, dstc);
+		else if (lstlast(*dst) == max(*dst) || lstlast(*dst)->idx < (*src)->idx)
+		{
+			push(src, dst, dstc);
+			retate(dst, dstc);
+		}
+		else if (r_or_rrr(*src, *dst))
+			retate(src, srcc);
+		else
+			onti_retate(src, srcc);
+	}
 }
 
 void	sort_five_handred(t_list **a, t_list **b)
 {
 	int	size;
+	int	start;
+	int	end;
+	int	i;
 
-	size = ft_lstsize(*a);
-	move_quarter_five_handred(a, b, size, 1);
-	move_quarter_five_handred(a, b, size, 2);
-	move_quarter_five_handred(a, b, size, 3);
-	move_quarter_five_handred(a, b, size, 4);
-	move_quarter_five_handred(a, b, size, 5);
-	move_quarter_five_handred(a, b, size, 6);
-	move_quarter_five_handred(a, b, size, 7);
-	move_quarter_five_handred(a, b, size, 9);
-	move_quarter_five_handred(a, b, size, 10);
-	move_quarter_five_handred(a, b, size, 11);
-	move_quarter_five_handred(a, b, size, 12);
-	move_quarter_five_handred(a, b, size, 13);
-	move_quarter_five_handred(a, b, size, 14);
-	move_quarter_five_handred(a, b, size, 15);
-	move_quarter_five_handred(a, b, size, 16);
-	move_quarter_five_handred(a, b, size, 17);
-	move_quarter_five_handred(a, b, size, 18);
-	move_quarter_five_handred(a, b, size, 19);
-	move_quarter_five_handred(a, b, size, 20);
+	i = 40;
+	size = ft_lstsize(*a) / 2;
 	while (*a)
-		push(a, b, 'b');
-	repush_to_a(a, b, 'b', 'a');
+	{
+		start = size - i;
+		end = size + i;
+		move_quarter_five_handred(a, b, start, end);
+		i *= 2;
+	}
+	repush_to_a(b, a, 'b', 'a');
 }
 
 int	chek_sort(t_list *lst)
@@ -193,6 +215,7 @@ int	main(int ac, char **av)
 			sort_five_handred(&a, &b);
 		else
 			sort_more_then_three(&a, &b);
+		// print_stack(a);
 		// system("leaks push_swap");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 08:53:33 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/02 19:35:25 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/04 11:21:34 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,14 @@ void	push(t_list **lst_src, t_list **lst_dest, char c)
 	if (t)
 	{
 		t = *lst_src;
-		i = t->index;
+		i = t->idx;
 		co = t->content;
 		ft_lstadd_front(lst_dest, ft_lstnew(co, i, t->p));
 		*lst_src = (*lst_src)->next;
 		free(t);
 	}
 	else
-	{
-		ft_printf("lst .com\n");
 		return ;
-	}
 	ft_printf("p%c\n", c);
 }
 
@@ -102,7 +99,7 @@ void	onti_retate(t_list **lst, char c)
 	t_list	*m;
 
 	if (ft_lstsize(*lst) < 2)
-		ft_printf("lslslslslsllslslslslslslslsls");
+		return ;
 	else
 	{
 		t = *lst;
@@ -115,31 +112,36 @@ void	onti_retate(t_list **lst, char c)
 	ft_printf("rr%c\n", c);
 }
 
+int	max_int(t_list *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst->next && lst->idx + 1 == lst->next->idx)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
 t_list	*lst_large(t_list *list)
 {
-	t_list	*t;
-	t_list	*max1;
+	t_list	*max;
 	int		m;
-	int		i;
 
-	max1 = max(list);
-	i = 0;
+	max = list;
+	m = 0;
 	while (list)
 	{
-		m = i;
-		i = 0;
-		t = list;
-		while (t->next && t->index == t->next->index + 1)
+		if (m < max_int(list))
 		{
-			ft_printf("i ==> %d ", i);
-			i++;
-			t = t->next;
+			m = max_int(list);
+			max = list;
 		}
-		if (i > m)
-			max1 = list;
 		list = list->next;
 	}
-	return (max1);
+	return (max);
 }
 
 void	print_stack(t_list *list)
@@ -150,13 +152,13 @@ void	print_stack(t_list *list)
 	ft_printf("\n===> \n");
 	while (list)
 	{
-		ft_printf("n = %d ", list->content);
+		//ft_printf("n = %d ", list->content);
 		list = list->next;
 	}
 	ft_printf("\n");
 	while (t)
 	{
-		ft_printf("i = %d ", t->index);
+		ft_printf("i = %d \n", t->idx);
 		t = t->next;
 	}
 }
@@ -172,9 +174,9 @@ int	probabelite(t_list *list, int size)
 	p2 = 0;
 	while (i < size / 2)
 	{
-		if (list->index < size / 5)
+		if (list->idx < size / 5)
 			p1++;
-		if (list->index > size / 5)
+		if (list->idx > size / 5)
 			p2++;
 		list = list->next;
 		i++;
@@ -203,40 +205,43 @@ int	r_or_rr(t_list *list, t_list *ma_min)
 	return (0);
 }
 
-int	retate_or_onti(t_list *lst, int first, int last)
+int	r_or_rrr(t_list *list, t_list *ma_min)
 {
-	int	p1;
-	int	p2;
+	int	p;
 	int	size;
 
-	size = ft_lstsize(lst);
-	while (lst->next)
+	size = ft_lstsize(list);
+	p = 0;
+	while (list)
 	{
-		if (lst->index == last + 1)
-			p1 = lst->p;
-		if (lst->index == first - 1)
-			p2 = lst->p;
-		lst = lst->next;
+		if (list->idx == ma_min->idx - 1)
+			break ;
+		p++;
+		list = list->next;
 	}
-	if ((p1 < size / 2 && p2 < size / 2) || p1 > p2 - size)
+	if (p < size / 2)
 		return (1);
 	return (0);
 }
-
 void	move_quarter(t_list **a, t_list **b, int siz, int d)
 {
 	int	count;
+	int	index;
 
 	count = 0;
+	index = min(*a, 0)->idx;
 	while (count < siz / 6)
 	{
-		if ((*a) && (*a == min(*a, 0) || (*a)->index <= min(*a, 0)->index + 6))
+		if ((*a)->idx <= siz * (d - 1) / 6 + (siz / 6 / 2))
 		{
 			push(a, b, 'b');
-			retate(b, 'b');
+			if ((*a)->idx > siz * d / 6)
+				retate_a_and_b(a, b);
+			else
+				retate(b, 'b');
 			count++;
 		}
-		else if ((*a)->index < siz * d / 6 && (*a)->index >= siz * (d - 1) / 6)
+		else if ((*a)->idx < siz * d / 6 && (*a)->idx >= siz * (d - 1) / 6)
 		{
 			push(a, b, 'b');
 			count++;
@@ -246,31 +251,38 @@ void	move_quarter(t_list **a, t_list **b, int siz, int d)
 	}
 }
 
-void	move_quarter_five_handred(t_list **a, t_list **b, int siz, int d)
+int	there_is_more_to_push(t_list *lst, int start, int end)
 {
-	int	count;
-
-	count = 0;
-	while (count < siz / 20)
+	while (lst)
 	{
-		if ((*a) && (*a == min(*a, 0) || (*a)->index <= min(*a, 0)->index + 9))
+		if (lst->idx < end && lst->idx >= start)
+			return (1);
+		lst = lst->next;
+	}
+	return (0);
+}
+
+void	move_quarter_five_handred(t_list **a, t_list **b, int start, int end)
+{
+	while (there_is_more_to_push(*a, start, end))
+	{
+		if ((*a)->idx < start + (end - start) / 2 && (*a)->idx >= start)
 		{
 			push(a, b, 'b');
-			retate(b, 'b');
-			count++;
+			if (ft_lstsize(*a) > 1 && ft_lstsize(*b) > 1 && (*a)->idx < start
+				&& (*a)->idx > end)
+				retate_a_and_b(a, b);
+			else
+				retate(b, 'b');
 		}
-		else if ((*a)->index < siz * d / 20 && (*a)->index >= siz * (d - 1)
-				/ 20)
-		{
+		else if ((*a)->idx < end && (*a)->idx >= start)
 			push(a, b, 'b');
-			count++;
-		}
 		else
 			retate(a, 'a');
 	}
 }
 
-int	where_big_percentage(t_list *lst, t_list *lst3, int size, int d)
+int	where_big_percentage(t_list *lst, int size, int d)
 {
 	int count;
 	int count2;
@@ -279,23 +291,22 @@ int	where_big_percentage(t_list *lst, t_list *lst3, int size, int d)
 
 	count = 0;
 	count2 = 0;
-	(void)lst3;
 	t = lst;
-	while (lst->next)
+	while (lst)
 	{
-		if (lst->index <= size * d / 5 && lst->index >= size * (d - 1) / 5)
+		if (lst->idx < size * d / 11 && lst->idx >= size * (d - 1) / 11)
 			count++;
 		lst = lst->next;
 	}
 	i = ft_lstsize(t) / 2;
-	while (i >= 0)
+	while (i)
 	{
-		if (t->index <= size * d / 5 && t->index >= size * (d - 1) / 5)
+		if (t->idx < size * d / 11 && t->idx >= size * (d - 1) / 11)
 			count2++;
 		t = t->next;
 		i--;
 	}
 	if (count2 >= count / 2)
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }
