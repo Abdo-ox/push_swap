@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:29:14 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 11:26:35 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/04 15:37:24 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,6 @@ void	fill_stack(t_list **lst, int ac, char **av)
 		i++;
 	}
 	put_idx(*lst);
-}
-
-t_list	*max(t_list *lst)
-{
-	t_list	*max;
-
-	max = lst;
-	while (lst)
-	{
-		if (lst->content > max->content)
-			max = lst;
-		lst = lst->next;
-	}
-	return (max);
-}
-
-t_list	*min(t_list *lst, int sort)
-{
-	t_list	*min;
-
-	min = max(lst);
-	while (lst)
-	{
-		if (lst->content < min->content && (lst->idx == -1 || !sort))
-			min = lst;
-		lst = lst->next;
-	}
-	return (min);
 }
 
 void	sort_three(t_list **lst, char c)
@@ -80,27 +52,21 @@ void	put_idx(t_list *lst)
 void	sort_more_then_three(t_list **a, t_list **b)
 {
 	int	size;
+	int	start;
+	int	end;
+	int	i;
 
-	size = ft_lstsize(*a);
-	move_quarter(a, b, size, 1);
-	move_quarter(a, b, size, 2);
-	move_quarter(a, b, size, 3);
-	move_quarter(a, b, size, 4);
-	move_quarter(a, b, size, 5);
-	move_quarter(a, b, size, 6);
+	size = ft_lstsize(*a) / 4;
+	i = 0;
 	while (*a)
 	{
-		if ((*a)->idx < size * 5 / 6)
-		{
-			push(a, b, 'b');
-			retate(b, 'b');
-		}
-		else
-			push(a, b, 'b');
+		start = size * i;
+		end = size * (i + 1);
+		move_quarter(a, b, start, end);
+		i++;
 	}
 	while (*b)
 		push_max(b, a, 'b', 'a');
-	//repush_to_a(b, a, 'b', 'a');
 }
 
 void	push_max(t_list **src, t_list **dst, char srcc, char dstc)
@@ -152,15 +118,18 @@ void	sort_five_handred(t_list **a, t_list **b)
 	int	start;
 	int	end;
 	int	i;
+	int	m;
 
-	i = 40;
+	m = 0;
+	i = 38;
 	size = ft_lstsize(*a) / 2;
 	while (*a)
 	{
 		start = size - i;
 		end = size + i;
-		move_quarter_five_handred(a, b, start, end);
-		i *= 2;
+		move_quarter(a, b, start, end);
+		i += 38 - m;
+		//m += 10;
 	}
 	repush_to_a(b, a, 'b', 'a');
 }
