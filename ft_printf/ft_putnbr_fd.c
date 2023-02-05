@@ -6,11 +6,11 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:35:01 by ajari             #+#    #+#             */
-/*   Updated: 2023/01/30 09:47:04 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 00:21:57 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "printf.h"
 
 static int	ft_count(int n)
 {

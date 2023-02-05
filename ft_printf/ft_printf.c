@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "printf.h"
 
 int	ft_print(char c, va_list p)
 {
@@ -39,7 +39,7 @@ int	ft_print(char c, va_list p)
 	return (count);
 }
 
-int	ft_printf(const char *s, ...)
+int	printf(const char *s, ...)
 {
 	va_list	p;
 	int		i;

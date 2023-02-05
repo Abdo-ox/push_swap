@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 08:53:33 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 15:42:11 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 00:28:49 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,19 @@ void	move_quarter(t_list **a, t_list **b, int start, int end)
 {
 	while (there_is_more_to_push(*a, start, end))
 	{
-		if ((*a)->idx < start + (end - start) / 2 && (*a)->idx >= start)
+		if ((*a)->idx <= end && (*a)->idx >= start)
 		{
-			push(a, b, 'b');
-			if (ft_lstsize(*a) > 1 && ft_lstsize(*b) > 1 && (*a)->idx < start
-				&& (*a)->idx > end)
-				rr(a, b);
+			if (ft_lstsize(*b) && (*a)->idx <= start + (end - start) / 2)
+			{
+				push(a, b, 'b');
+				if (*a && ((*a)->idx < start || (*a)->idx > end))
+					rr(a, b);
+				else
+					retate(b, 'b');
+			}
 			else
-				retate(b, 'b');
+				push(a, b, 'b');
 		}
-		else if ((*a)->idx <= end && (*a)->idx >= start)
-			push(a, b, 'b');
 		else
 			retate(a, 'a');
 	}

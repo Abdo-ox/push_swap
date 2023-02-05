@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 14:42:02 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 15:00:33 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 00:21:47 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	retate(t_list **lst, char c)
 		t->next = 0;
 		ft_lstadd_back(lst, t);
 	}
-	ft_printf("r%c\n", c);
+	printf("r%c\n", c);
 }
 
 void	onti_retate(t_list **lst, char c)
@@ -44,7 +44,7 @@ void	onti_retate(t_list **lst, char c)
 		t->next = 0;
 		ft_lstadd_front(lst, m);
 	}
-	ft_printf("rr%c\n", c);
+	printf("rr%c\n", c);
 }
 
 void	rr(t_list **a, t_list **b)
@@ -64,8 +64,9 @@ void	rr(t_list **a, t_list **b)
 		t->next = 0;
 		ft_lstadd_back(b, t);
 	}
-	ft_printf("rr\n");
+	printf("rr\n");
 }
+
 int	r_or_rrr(t_list *list, t_list *ma_min)
 {
 	int	p;

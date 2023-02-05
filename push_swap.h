@@ -6,14 +6,14 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:29:36 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 14:51:35 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 00:22:38 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "ft_printf/ft_printf.h"
+//# include "ft_printf/printf.h"
 # include "libft/libft.h"
 
 void	fill_stack(t_list **lst, int ac, char **av);

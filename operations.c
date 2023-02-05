@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 14:39:03 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 15:02:47 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 00:21:44 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	push(t_list **lst_src, t_list **lst_dest, char c)
 	}
 	else
 		return ;
-	ft_printf("p%c\n", c);
+	printf("p%c\n", c);
 }
 
 void	swap(t_list **lst, char c)
@@ -81,16 +81,16 @@ void	print_stack(t_list *list)
 	t_list *t;
 
 	t = list;
-	ft_printf("\n===> \n");
+	printf("\n===> \n");
 	while (list)
 	{
-		//ft_printf("n = %d ", list->content);
+		//printf("n = %d ", list->content);
 		list = list->next;
 	}
-	ft_printf("\n");
+	printf("\n");
 	while (t)
 	{
-		ft_printf("i = %d \n", t->idx);
+		printf("i = %d \n", t->idx);
 		t = t->next;
 	}
 }

@@ -6,11 +6,11 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:49:12 by ajari             #+#    #+#             */
-/*   Updated: 2023/01/30 09:46:44 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 00:21:50 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "printf.h"
 
 int	ft_putchar_fd_p(char c, int fd)
 {

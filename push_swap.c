@@ -6,11 +6,37 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:29:14 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 15:49:30 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 01:17:30 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	fsearch_index(t_list *stack_b, int index)
+{
+	int	i;
+
+	i = 0;
+	while (stack_b)
+	{
+		if (stack_b->idx == index)
+			return (i);
+		i++;
+		stack_b = stack_b->next;
+	}
+	return (i);
+}
+
+int	is_there_more(t_list *list, int start, int end)
+{
+	while (list)
+	{
+		if (list->idx >= start && list->idx <= end)
+			return (1);
+		list = list->next;
+	}
+	return (0);
+}
 
 void	fill_stack(t_list **lst, int ac, char **av)
 {
@@ -94,21 +120,28 @@ void	push_max(t_list **src, t_list **dst, char srcc, char dstc)
 void	repush_to_a(t_list **src, t_list **dst, char srcc, char dstc)
 {
 	push_max(src, dst, srcc, dstc);
-	while (*src || (!chek_sort(*dst) && !*src))
+	while (*src || !chek_sort(*dst))
 	{
-		if ((*dst)->idx == lstlast(*dst)->idx + 1)
+		if (*src && (*src)->idx == (*dst)->idx - 1)
+			push(src, dst, dstc);
+		else if ((*dst)->idx == lstlast(*dst)->idx + 1)
 			onti_retate(dst, dstc);
-		else if (lstlast(*dst) == max(*dst) || lstlast(*dst)->idx < (*src)->idx)
+		else if (*src && (lstlast(*dst) == max(*dst)
+					|| lstlast(*dst)->idx < (*src)->idx))
 		{
 			push(src, dst, dstc);
-			retate(dst, dstc);
+			if (r_or_rrr(*src, *dst))
+				rr(dst, src);
+			else
+				retate(dst, dstc);
 		}
-		else if ((*src)->idx == (*dst)->idx + 1)
-			push(src, dst, dstc);
-		else if (r_or_rrr(*src, *dst))
-			retate(src, srcc);
-		else if (!r_or_rrr(*src, *dst))
-			onti_retate(src, srcc);
+		else if (ft_lstsize(*src) > 1)
+		{
+			if (r_or_rrr(*src, *dst))
+				retate(src, srcc);
+			else
+				onti_retate(src, srcc);
+		}
 	}
 }
 
@@ -120,12 +153,12 @@ void	sort_five_handred(t_list **a, t_list **b)
 	int	i;
 
 	i = 40;
-	size = ft_lstsize(*a) / 2;
+	size = ft_lstsize(*a);
 	while (*a)
 	{
 		start = size - i;
 		end = size + i;
-		move_quarter(a, b, start, end);
+		move_quarter(a, b, size / 2 - i, size / 2 + i);
 		i += 40;
 	}
 	repush_to_a(b, a, 'b', 'a');
@@ -179,9 +212,9 @@ int	main(int ac, char **av)
 		fill_stack(&a, ac, av);
 		if (ft_lstsize(a) >= 500)
 			sort_five_handred(&a, &b);
-		else
-			sort_more_then_three(&a, &b);
-		// print_stack(a);
+		// else
+		// 	sort_more_then_three(&a, &b);
+		// // print_stack(a);
 		// system("leaks push_swap");
 	}
 }

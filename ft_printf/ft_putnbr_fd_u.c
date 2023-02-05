@@ -6,11 +6,11 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:15:15 by ajari             #+#    #+#             */
-/*   Updated: 2022/11/04 18:57:29 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/05 00:21:51 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "printf.h"
 
 int	ft_putnbr_fd_u(unsigned int n, int fd)
 {
