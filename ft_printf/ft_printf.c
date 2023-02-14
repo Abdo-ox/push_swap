@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
 int	ft_print(char c, va_list p)
 {
@@ -39,7 +39,7 @@ int	ft_print(char c, va_list p)
 	return (count);
 }
 
-int	printf(const char *s, ...)
+int	ft_printf(const char *s, ...)
 {
 	va_list	p;
 	int		i;

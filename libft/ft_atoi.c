@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 21:22:52 by ajari             #+#    #+#             */
-/*   Updated: 2022/10/25 22:28:52 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/07 11:00:15 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ int	ft_atoi(const char *str)
 	v = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
-	if (str[i] == '-')
+	if (str[i] == '-' || str[i] == '+')
 	{
-		m = -1;
+		(str[i] == '-') && (m = -1);
 		i++;
 	}
-	else if (str[i] == '+')
-		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		v = v * 10 + (str[i++] - 48);
-		if (v >= LONG_MAX && m == 1)
-			return (-1);
-		if (v > LONG_MAX && m == -1)
-			return (0);
+		if ((v > INT_MAX && m == 1) || (v > 2147483648 && m == -1))
+		{
+			ft_printf("error out of range number\n");
+			exit(0);
+		}
 	}
 	return ((v * m));
 }

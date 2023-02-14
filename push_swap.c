@@ -6,73 +6,62 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:29:14 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/05 01:17:30 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/13 18:54:44 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	fsearch_index(t_list *stack_b, int index)
+void	check_str(char *s, char **m)
 {
 	int	i;
 
 	i = 0;
-	while (stack_b)
-	{
-		if (stack_b->idx == index)
-			return (i);
+	if (s[0] == '-' || s[0] == '+')
 		i++;
-		stack_b = stack_b->next;
-	}
-	return (i);
-}
-
-int	is_there_more(t_list *list, int start, int end)
-{
-	while (list)
+	if (!s[i])
 	{
-		if (list->idx >= start && list->idx <= end)
-			return (1);
-		list = list->next;
+		ft_printf("error you enter an invalid number\n");
+		ft_free(m);
+		exit(0);
 	}
-	return (0);
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+		{
+			ft_printf("error you enter an invalid number\n");
+			ft_free(m);
+			exit(0);
+		}
+		i++;
+	}
 }
 
 void	fill_stack(t_list **lst, int ac, char **av)
 {
-	int	i;
+	char	**s;
+	int		i;
+	int		j;
 
 	i = 1;
 	while (i < ac)
 	{
-		ft_lstadd_back(lst, ft_lstnew(ft_atoi(av[i]), -1, i - 1));
+		j = 0;
+		if (!*av[i])
+		{
+			ft_printf("error you enter an invalid number\n");
+			exit(0);
+		}
+		s = ft_split(av[i], ' ');
+		while (s[j])
+		{
+			check_str(s[j], s);
+			ft_lstadd_back(lst, ft_lstnew(ft_atoi(s[j++]), -1));
+		}
+		ft_free(s);
 		i++;
 	}
 	put_idx(*lst);
-}
-
-void	sort_three(t_list **lst, char c)
-{
-	if (chek_sort(*lst))
-		return ;
-	if (max(*lst) == (*lst)->next)
-		onti_retate(lst, c);
-	else if (max(*lst) == (*lst))
-		retate(lst, c);
-	if ((*lst)->content > (*lst)->next->content)
-		swap(lst, c);
-}
-
-void	put_idx(t_list *lst)
-{
-	int	i;
-
-	i = 0;
-	while (i < ft_lstsize(lst))
-	{
-		min(lst, 1)->idx = i;
-		i++;
-	}
 }
 
 void	sort_more_then_three(t_list **a, t_list **b)
@@ -117,104 +106,29 @@ void	push_max(t_list **src, t_list **dst, char srcc, char dstc)
 	}
 }
 
-void	repush_to_a(t_list **src, t_list **dst, char srcc, char dstc)
+void	repush_to_a(t_list **s, t_list **d, char sc, char dc)
 {
-	push_max(src, dst, srcc, dstc);
-	while (*src || !chek_sort(*dst))
+	push_max(s, d, sc, dc);
+	while (*s || !chek_sort(*d))
 	{
-		if (*src && (*src)->idx == (*dst)->idx - 1)
-			push(src, dst, dstc);
-		else if ((*dst)->idx == lstlast(*dst)->idx + 1)
-			onti_retate(dst, dstc);
-		else if (*src && (lstlast(*dst) == max(*dst)
-					|| lstlast(*dst)->idx < (*src)->idx))
+		if (*s && (*s)->idx == (*d)->idx - 1)
+			push(s, d, dc);
+		else if ((*d)->idx == lstlast(*d)->idx + 1)
+			onti_retate(d, dc);
+		else if (*s && (lstlast(*d) == max(*d) || lstlast(*d)->idx < (*s)->idx))
 		{
-			push(src, dst, dstc);
-			if (r_or_rrr(*src, *dst))
-				rr(dst, src);
+			push(s, d, dc);
+			if (r_or_rrr(*s, *d))
+				rr(d, s);
 			else
-				retate(dst, dstc);
+				retate(d, dc);
 		}
-		else if (ft_lstsize(*src) > 1)
+		else if (ft_lstsize(*s) > 1)
 		{
-			if (r_or_rrr(*src, *dst))
-				retate(src, srcc);
+			if (r_or_rrr(*s, *d))
+				retate(s, sc);
 			else
-				onti_retate(src, srcc);
+				onti_retate(s, sc);
 		}
-	}
-}
-
-void	sort_five_handred(t_list **a, t_list **b)
-{
-	int	size;
-	int	start;
-	int	end;
-	int	i;
-
-	i = 40;
-	size = ft_lstsize(*a);
-	while (*a)
-	{
-		start = size - i;
-		end = size + i;
-		move_quarter(a, b, size / 2 - i, size / 2 + i);
-		i += 40;
-	}
-	repush_to_a(b, a, 'b', 'a');
-}
-
-int	chek_sort(t_list *lst)
-{
-	while (lst->next)
-	{
-		if (lst->content > lst->next->content)
-			return (0);
-		lst = lst->next;
-	}
-	return (1);
-}
-
-void	sort_five(t_list **a, t_list **b)
-{
-	int	i;
-
-	i = 0;
-	while (!chek_sort(*a))
-	{
-		if ((*a) == min((*a), 0))
-		{
-			i++;
-			push(a, b, 'b');
-			if (i == 2)
-			{
-				sort_three(a, 'a');
-				push(b, a, 'a');
-				push(b, a, 'a');
-				break ;
-			}
-		}
-		if (r_or_rr(*a, min(*a, 0)))
-			retate(a, 'a');
-		else
-			onti_retate(a, 'a');
-	}
-}
-
-int	main(int ac, char **av)
-{
-	t_list	*a;
-	t_list	*b;
-
-	(void)b;
-	if (ac > 1)
-	{
-		fill_stack(&a, ac, av);
-		if (ft_lstsize(a) >= 500)
-			sort_five_handred(&a, &b);
-		// else
-		// 	sort_more_then_three(&a, &b);
-		// // print_stack(a);
-		// system("leaks push_swap");
 	}
 }

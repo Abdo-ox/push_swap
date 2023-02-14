@@ -6,12 +6,13 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:12:09 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/04 10:53:16 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/07 10:26:28 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# include "../ft_printf/ft_printf.h"
 # include <limits.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -63,7 +64,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-t_list				*ft_lstnew(int content, int idx, int p);
+t_list				*ft_lstnew(int content, int idx);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);
 t_list				*lstlast(t_list *lst);

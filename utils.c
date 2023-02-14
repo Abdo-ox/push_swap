@@ -6,19 +6,31 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 08:53:33 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/05 00:28:49 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/13 18:46:39 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	there_is_more_to_push(t_list *lst, int start, int end)
+void	put_idx(t_list *lst)
 {
-	while (lst)
+	int	i;
+
+	i = 0;
+	while (i < ft_lstsize(lst))
 	{
-		if (lst->idx <= end && lst->idx >= start)
+		min(lst, 1)->idx = i;
+		i++;
+	}
+}
+
+int	is_there_more(t_list *list, int start, int end)
+{
+	while (list)
+	{
+		if (list->idx >= start && list->idx <= end)
 			return (1);
-		lst = lst->next;
+		list = list->next;
 	}
 	return (0);
 }
@@ -53,7 +65,7 @@ t_list	*max(t_list *lst)
 
 void	move_quarter(t_list **a, t_list **b, int start, int end)
 {
-	while (there_is_more_to_push(*a, start, end))
+	while (is_there_more(*a, start, end))
 	{
 		if ((*a)->idx <= end && (*a)->idx >= start)
 		{

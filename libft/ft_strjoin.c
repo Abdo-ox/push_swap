@@ -6,7 +6,7 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 17:30:07 by ajari             #+#    #+#             */
-/*   Updated: 2023/01/28 19:11:01 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/07 17:02:57 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	len = ft_strlen(s1) + ft_strlen(s2);
 	sub = malloc(len + 1);
-	ft_memset((void *)sub, 'a', len);
 	if (!sub)
 		return (NULL);
 	if (s1)

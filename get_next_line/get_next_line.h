@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 09:51:29 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/07 09:57:43 by ajari            ###   ########.fr       */
+/*   Created: 2022/11/07 13:29:11 by ajari             #+#    #+#             */
+/*   Updated: 2023/02/07 15:40:13 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef GET_NEXT_LINE_H
+
+# define GET_NEXT_LINE_H
+# include "../libft/libft.h"
+# include <fcntl.h>
 # include <limits.h>
-# include <stdarg.h>
-# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 
-int	ft_hexa_x(size_t i);
-int	ft_hexa_xx(size_t i);
-int	ft_printf(const char *s, ...);
-int	ft_putnbr_fd_u(unsigned int n, int fd);
-int	ft_putnbr_fd_p(int n, int fd);
-int	ft_putchar_fd_p(char n, int fd);
-int	ft_putstr_fd_p(const char *s, int fd);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+char	*get_next_line(int fd);
+char	*ft_substr_get(char const *s, unsigned int start, size_t len);
+int		ft_strchr_index(const char *s, int c);
+char	*ft_strjoin_get(const char *s1, const char *s2);
+char	*ft_strdup_get(const char *s);
 
 #endif

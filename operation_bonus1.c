@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operations1.c                                      :+:      :+:    :+:   */
+/*   operation_bonus1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/04 14:42:02 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/09 09:07:17 by ajari            ###   ########.fr       */
+/*   Created: 2023/02/08 18:34:52 by ajari             #+#    #+#             */
+/*   Updated: 2023/02/13 14:07:11 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	retate(t_list **lst, char c)
 {
 	t_list	*t;
 
+	(void)c;
 	if (ft_lstsize(*lst) < 2)
 		return ;
 	else
@@ -25,7 +26,6 @@ void	retate(t_list **lst, char c)
 		t->next = 0;
 		ft_lstadd_back(lst, t);
 	}
-	ft_printf("r%c\n", c);
 }
 
 void	onti_retate(t_list **lst, char c)
@@ -33,6 +33,7 @@ void	onti_retate(t_list **lst, char c)
 	t_list	*t;
 	t_list	*m;
 
+	(void)c;
 	if (ft_lstsize(*lst) < 2)
 		return ;
 	else
@@ -44,57 +45,37 @@ void	onti_retate(t_list **lst, char c)
 		t->next = 0;
 		ft_lstadd_front(lst, m);
 	}
-	ft_printf("rr%c\n", c);
 }
 
 void	rr(t_list **a, t_list **b)
 {
-	t_list	*t;
-
-	if (ft_lstsize(*a) > 1)
-	{
-		t = *a;
-		*a = (*a)->next;
-		t->next = 0;
-		ft_lstadd_back(a, t);
-	}
-	if (ft_lstsize(*b) > 1)
-	{
-		t = *b;
-		*b = (*b)->next;
-		t->next = 0;
-		ft_lstadd_back(b, t);
-	}
-	ft_printf("rr\n");
+	retate(a, 'a');
+	retate(b, 'b');
 }
 
-int	r_or_rrr(t_list *list, t_list *ma_min)
+void	rrr(t_list **a, t_list **b)
 {
-	int	p;
-	int	size;
-
-	size = ft_lstsize(list);
-	p = 0;
-	while (list)
-	{
-		if (list->idx == ma_min->idx - 1)
-			break ;
-		p++;
-		list = list->next;
-	}
-	if (p < size / 2)
-		return (1);
-	return (0);
-}
-
-void	sort_three(t_list **lst, char c)
-{
-	if (chek_sort(*lst))
+	if (ft_lstsize(*a) < 2 || ft_lstsize(*b) < 2)
 		return ;
-	if (max(*lst) == (*lst)->next)
-		onti_retate(lst, c);
-	else if (max(*lst) == (*lst))
-		retate(lst, c);
-	if ((*lst)->content > (*lst)->next->content)
-		swap(lst, c);
+	else
+	{
+		onti_retate(b, 'b');
+		onti_retate(a, 'a');
+	}
+}
+
+void	ft_free_bonus(char **m)
+{
+	int	i;
+
+	i = 0;
+	if (!m)
+		return ;
+	while (m[i])
+	{
+		free(m[i]);
+		i++;
+	}
+	free(m);
+	m = 0;
 }

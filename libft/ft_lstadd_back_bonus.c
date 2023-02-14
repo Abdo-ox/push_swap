@@ -6,11 +6,24 @@
 /*   By: ajari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:04:48 by ajari             #+#    #+#             */
-/*   Updated: 2023/02/01 08:22:54 by ajari            ###   ########.fr       */
+/*   Updated: 2023/02/13 13:53:49 by ajari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static void	check_dup(t_list *list, int content)
+{
+	while (list)
+	{
+		if (list->content == content)
+		{
+			ft_printf("error you put  duplicate numbers\n");
+			exit(0);
+		}
+		list = list->next;
+	}
+}
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -18,12 +31,13 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 	if (!new || !lst)
 		return ;
-	if (*lst == NULL)
+	t = *lst;
+	check_dup(t, new->content);
+	if (!*lst)
 	{
 		*lst = new;
 		return ;
 	}
-	t = *lst;
 	while (t->next)
 		t = t->next;
 	t->next = new;
